@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_patient')->unsigned()->nullable();
+            $table->string('id_resep', 255)->nullable();
+            $table->date('date')->nullable(false);
+            $table->integer('total_amount')->unsigned()->nullable(false);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->nullable();
             $table->timestamps();
         });
     }

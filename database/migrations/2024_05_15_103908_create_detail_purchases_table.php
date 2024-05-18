@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('detail_purchases', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_product')->unsigned();
+            $table->bigInteger('id_purchase')->unsigned();
+            $table->integer('quantity')->unsigned();
+            $table->integer('price')->unsigned();
+            $table->string('created_by');
+            $table->string('updated_by');
             $table->timestamps();
         });
     }

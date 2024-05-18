@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('transfer_stocks', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('id_pharmacy')->unsigned()->nullable();
+            $table->bigInteger('id_warehouse')->unsigned()->nullable();
+            $table->date('date')->nullable(false);
+            $table->enum('status', ['pending', 'approved', 'rejected'])->nullable();
+            $table->string('created_by');
+            $table->string('updated_by');
             $table->timestamps();
         });
     }
