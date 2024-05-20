@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('signas', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255)->nullable(false);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('id_purchase')->unsigned();
             $table->integer('quantity')->unsigned();
             $table->integer('price')->unsigned();
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

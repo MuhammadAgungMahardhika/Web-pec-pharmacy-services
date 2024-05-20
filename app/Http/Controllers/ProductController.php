@@ -27,13 +27,13 @@ class ProductController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_unit' => 'required|integer',
-                'id_category' => 'required|integer',
+                // 'id_unit' => 'required|integer',
+                // 'id_category' => 'required|integer',
                 'name' => 'required|string|max:255',
-                'description' => 'nullable|string|max:255',
+                // 'description' => 'nullable|string|max:255',
                 'price' => 'required|integer',
                 'stock_quantity' => 'required|integer',
-                'expired' => 'required|date',
+                // 'expired' => 'required|date',
             ]);
 
             $product = Product::create($validatedData);
@@ -68,13 +68,13 @@ class ProductController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_unit' => 'required|integer',
-                'id_category' => 'required|integer',
+                // 'id_unit' => 'required|integer',
+                // 'id_category' => 'required|integer',
                 'name' => 'required|string|max:255',
-                'description' => 'nullable|string|max:255',
+                // 'description' => 'nullable|string|max:255',
                 'price' => 'required|integer',
                 'stock_quantity' => 'required|integer',
-                'expired' => 'required|date',
+                // 'expired' => 'required|date',
             ]);
 
             $product = Product::find($id);

@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('id_transfer_stock')->unsigned()->nullable();
             $table->integer('quantity')->unsigned()->nullable(false);
             $table->integer('price')->unsigned()->nullable(false);
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

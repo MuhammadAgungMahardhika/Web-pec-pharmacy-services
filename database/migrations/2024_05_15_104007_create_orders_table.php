@@ -18,6 +18,8 @@ return new class extends Migration
             $table->date('date')->nullable(false);
             $table->integer('total_amount')->unsigned()->nullable(false);
             $table->enum('status', ['pending', 'approved', 'rejected'])->nullable();
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

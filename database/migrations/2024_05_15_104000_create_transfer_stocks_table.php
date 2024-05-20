@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('id_warehouse')->unsigned()->nullable();
             $table->date('date')->nullable(false);
             $table->enum('status', ['pending', 'approved', 'rejected'])->nullable();
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }

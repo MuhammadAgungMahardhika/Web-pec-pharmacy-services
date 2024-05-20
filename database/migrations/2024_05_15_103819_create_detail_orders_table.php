@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('dosis')->nullable();
             $table->string('note', 255)->nullable();
             $table->string('note2', 255)->nullable();
-            $table->string('created_by');
-            $table->string('updated_by');
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
             $table->timestamps();
         });
     }
