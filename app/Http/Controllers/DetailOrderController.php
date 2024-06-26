@@ -47,7 +47,7 @@ class DetailOrderController extends Controller
         } catch (ValidationException $e) {
             return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
     }
 
@@ -63,7 +63,7 @@ class DetailOrderController extends Controller
                 return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
     }
 

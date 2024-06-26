@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_unit')->unsigned()->nullable();
             $table->bigInteger('id_category')->unsigned()->nullable();
+            $table->string('code', 20);
             $table->string('name', 255);
             $table->string('description', 255)->nullable();
-            $table->integer('price');
+            $table->integer('price')->nullable();
             $table->integer('stock_quantity');
             $table->date('expired')->nullable();
             $table->string('created_by')->nullable();
