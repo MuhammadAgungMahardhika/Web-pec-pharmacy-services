@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
-    // Menampilkan semua order
+    // Display all orders
     public function index()
     {
         try {
@@ -20,22 +20,28 @@ class OrderController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
+    // Not required for API, only for displaying form
     public function create()
     {
-        // Tidak diperlukan untuk API
+        // Not required for API
     }
 
-    // Menyimpan order baru
+    // Store a new order
     public function store(Request $request)
     {
         try {
             $validatedData = $request->validate([
-                'id_patient' => 'required|integer',
-                'id_resep' => 'required|string|max:255',
+                'id_patient' => 'required|integer', // Assuming bigint maps to integer in PHP
+                'id_poli' => 'required|integer',
+                'id_doctor' => 'nullable|string|max:5',
+                'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt',
                 'date' => 'required|date',
+                'service_date' => 'required|date',
+                'kind_of_medicine' => 'required|in:1,2,3',
                 'total_amount' => 'required|integer',
                 'status' => 'required|in:pending,processing,completed,cancelled',
+                'bpjs_sep' => 'nullable|string|max:19',
+                'bpjs_iteration' => 'required|in:0,1',
             ]);
 
             $order = Order::create($validatedData);
@@ -44,11 +50,11 @@ class OrderController extends Controller
         } catch (ValidationException $e) {
             return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
     }
 
-    // Menampilkan order berdasarkan ID
+    // Display an order by ID
     public function show($id)
     {
         try {
@@ -64,22 +70,28 @@ class OrderController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
+    // Not required for API, only for displaying form
     public function edit($id)
     {
-        // Tidak diperlukan untuk API
+        // Not required for API
     }
 
-    // Memperbarui order berdasarkan ID
+    // Update an order by ID
     public function update(Request $request, $id)
     {
         try {
             $validatedData = $request->validate([
                 'id_patient' => 'required|integer',
-                'id_resep' => 'required|string|max:255',
+                'id_poli' => 'required|integer',
+                'id_doctor' => 'nullable|string|max:5',
+                'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt,' . $id,
                 'date' => 'required|date',
+                'service_date' => 'required|date',
+                'kind_of_medicine' => 'required|in:1,2,3',
                 'total_amount' => 'required|integer',
                 'status' => 'required|in:pending,processing,completed,cancelled',
+                'bpjs_sep' => 'nullable|string|max:19',
+                'bpjs_iteration' => 'required|in:0,1',
             ]);
 
             $order = Order::find($id);
@@ -97,7 +109,7 @@ class OrderController extends Controller
         }
     }
 
-    // Menghapus order berdasarkan ID
+    // Delete an order by ID
     public function destroy($id)
     {
         try {

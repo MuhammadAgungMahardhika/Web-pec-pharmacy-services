@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('id_patient')->unsigned()->nullable();
-            $table->string('id_resep', 255)->nullable();
+            $table->bigInteger('id_patient')->unsigned();
+            $table->bigInteger('id_poli')->unsigned()->nullable(false);
+            $table->string('id_doctor', 5)->nullable();
+            $table->string('no_of_receipt', 5)->unique()->nullable(false);
             $table->date('date')->nullable(false);
+            $table->date('service_date')->nullable(false);
+            $table->enum('kind_of_medicine', [1, 2, 3])->nullable(false);
             $table->integer('total_amount')->unsigned()->nullable(false);
-            $table->enum('status', ['pending', 'approved', 'rejected'])->nullable();
-            $table->string('created_by')->nullable();
-            $table->string('updated_by')->nullable();
+            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->nullable(false);
+            $table->string('bpjs_sep', 19)->nullable();
+            $table->enum('bpjs_iteration', [0, 1])->nullable(false);
             $table->timestamps();
         });
     }
