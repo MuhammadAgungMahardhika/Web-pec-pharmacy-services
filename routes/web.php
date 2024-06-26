@@ -14,11 +14,12 @@ use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\TransferStockController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Controllers\WarehouseStockController;
+use App\Http\Middleware\EnsureTokenIsValid;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->middleware(EnsureTokenIsValid::class);
 
 Route::prefix('api')->group(function () {
     Route::resource('product', ProductController::class);
