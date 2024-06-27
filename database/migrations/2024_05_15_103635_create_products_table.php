@@ -18,9 +18,14 @@ return new class extends Migration
             $table->string('code', 20);
             $table->string('name', 255);
             $table->string('description', 255)->nullable();
-            $table->integer('price')->nullable();
+            $table->integer('price')->nullable()->default(0);
             $table->integer('stock_quantity');
             $table->date('expired')->nullable();
+            $table->string('restriction', 255)->nullable();
+            $table->boolean('bpjs_prb', 255)->nullable();
+            $table->boolean('chronic', 255)->nullable();
+            $table->boolean('chemo', 255)->nullable();
+            $table->string('generic', 255)->nullable();
             $table->string('created_by')->nullable();
             $table->string('updated_by')->nullable();
             $table->timestamps();

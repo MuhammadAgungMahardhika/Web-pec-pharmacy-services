@@ -10,10 +10,19 @@ use Illuminate\Validation\ValidationException;
 class OrderController extends Controller
 {
     // Display all orders
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Order::all();
+            $perPage = $request->input('per_page', Order::count());
+            $page = $request->input('page', 1);
+
+            $skip = ($page - 1) * $perPage; // Menghitung jumlah data yang akan dilewati
+
+            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
+            $data = Order::orderBy('created_at', 'desc')
+                ->skip($skip)
+                ->take($perPage)
+                ->get();
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Orders retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');

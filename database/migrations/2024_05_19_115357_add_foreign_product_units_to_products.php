@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->foreign('id_unit', 'fk_product_product_unit')
-                ->references('id')
-                ->on('product_units')
-                ->onUpdate('cascade')
-                ->onDelete('set null');
-        });
+        // Schema::table('products', function (Blueprint $table) {
+        //     $table->foreign('id_unit', 'fk_product_product_unit')
+        //         ->references('id')
+        //         ->on('product_units')
+        //         ->onUpdate('cascade')
+        //         ->onDelete('set null');
+        // });
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('products', function (Blueprint $table) {
-            $table->dropForeign('fk_product_product_unit');
-        });
+        // Schema::table('products', function (Blueprint $table) {
+        //     $table->dropForeign('fk_product_product_unit');
+        // });
     }
 };
