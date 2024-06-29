@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('id_doctor', 5)->nullable();
             $table->string('no_of_receipt', 5)->unique()->nullable(false);
             $table->date('date')->nullable(false);
-            $table->date('service_date')->nullable(false);
+            $table->date('date_of_service')->nullable(false);
             $table->enum('kind_of_medicine', ["Obat PRB", "Obat Kronis Blm Stabil", "Obat Kemoterapi"])->nullable(false);
             $table->integer('total_amount')->unsigned()->nullable(false);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->nullable(false);
