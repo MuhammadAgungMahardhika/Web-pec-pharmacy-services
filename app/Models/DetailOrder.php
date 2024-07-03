@@ -9,4 +9,9 @@ class DetailOrder extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function products()
+    {
+        $this->belongsTo(Product::class);
+    }
 }

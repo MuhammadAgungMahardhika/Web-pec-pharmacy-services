@@ -26,6 +26,8 @@ Route::prefix('api')->group(function () {
     Route::resource('product-unit', ProductUnitController::class);
     Route::resource('product-category', ProductCategoryController::class);
     Route::resource('detail-order', DetailOrderController::class);
+    // costume
+    Route::get('detail-order/order-id/{orderId}', [DetailOrderController::class, 'showByOrderId']);
     Route::resource('detail-transfer-stock', DetailTransferStockController::class);
     Route::resource('warehouse-stock', WarehouseStockController::class);
     Route::resource('purchase', PurchaseController::class);

@@ -51,6 +51,26 @@ class DetailOrderController extends Controller
         }
     }
 
+    // Menampilkan detail order beradarkan order id
+    public function showByOrderId($orderId)
+    {
+        try {
+            // Cari detail order berdasarkan ID order
+            $detailOrder = DetailOrder::with('products')->where('id_order', $orderId)->get();
+
+            // Pastikan jika tidak ditemukan detail order untuk ID order tersebut
+            if ($detailOrder) {
+                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order retrieved successfully');
+            } else {
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
+            }
+        } catch (\Throwable $e) {
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+        } catch (\Exception $e) {
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+        }
+    }
+
     // Menampilkan detail order berdasarkan ID
     public function show($id)
     {
