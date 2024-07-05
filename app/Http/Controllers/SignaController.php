@@ -20,19 +20,19 @@ class SignaController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
+
     public function create()
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Menyimpan signa baru
+
     public function store(Request $request)
     {
         try {
             $validatedData = $request->validate([
                 'name' => 'required|string|max:255',
             ]);
+
 
             $signa = Signa::create($validatedData);
 

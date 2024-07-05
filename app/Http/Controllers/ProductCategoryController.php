@@ -74,6 +74,7 @@ class ProductCategoryController extends Controller
                 'name' => 'required|string|max:255',
             ]);
 
+
             $productCategory = ProductCategory::find($id);
 
             if ($productCategory) {
