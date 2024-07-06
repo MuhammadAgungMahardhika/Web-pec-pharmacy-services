@@ -11,27 +11,54 @@ use Throwable;
 
 class ProductController extends Controller
 {
-    public function index()
+    private $validatedData =
+    [
+        'code' => 'required|string|max:20',
+        'name' => 'required|string|max:255',
+        // 'price' => 'required|integer|min:0',
+        // 'stock_quantity' => 'nullable|integer|min:0',
+        // 'description' => 'nullable|string|max:500',
+        // 'expired' => 'nullable|date', // Format tanggal YYYY-MM-DD
+        // 'restriction' => 'nullable|string|max:255',
+        // 'bpjs_prb' => 'nullable|boolean',
+        // 'chronic' => 'nullable|boolean',
+        // 'generic' => 'nullable|string|max:255',
+        // 'id_category' => 'nullable|integer|exists:categories,id',
+    ];
+
+    public function index(Request $request)
     {
         try {
-            $products = Product::all();
-            return GlobalResponse::jsonResponse($products, 200, 'success', 'Products retrieved successfully');
+            $perPage = $request->input('per_page', Product::count());
+            $page = $request->input('page', 1);
+
+            $skip = ($page) * $perPage; // Menghitung jumlah data yang akan dilewati
+
+            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
+            $data = Product::orderBy('id', 'desc')
+                ->skip($skip)
+                ->take($perPage)
+                ->get();
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'Products retrieved successfully');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to retrieve products');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
+    // public function index()
+    // {
+    //     try {
+    //         $products = Product::all();
+    //         return GlobalResponse::jsonResponse($products, 200, 'success', 'Products retrieved successfully');
+    //     } catch (\Exception $e) {
+    //         return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to retrieve products');
+    //     }
+    // }
 
     public function store(Request $request)
     {
         try {
             $requestData =  $request->all();
-            $validatedData = $request->validate([
-                'code' => 'required|string|max:20',
-                'name' => 'required|string|max:255',
-                'price' => 'nullable|integer', // Price field can be nullable
-                'stock_quantity' => 'required|integer',
-                // Add other validation rules as needed
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             // Set default value for price if not provided
             if (!isset($validatedData['price'])) {
@@ -68,12 +95,7 @@ class ProductController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'price' => 'nullable|integer', // Price field can be nullable
-                'stock_quantity' => 'required|integer',
-                // Add other validation rules as needed
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             // Set default value for price if not provided
             if (!isset($validatedData['price'])) {
