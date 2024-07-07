@@ -10,10 +10,19 @@ use Illuminate\Validation\ValidationException;
 class SignaController extends Controller
 {
     // Menampilkan semua signa
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = Signa::all();
+            $perPage = $request->input('per_page', Signa::count());
+            $page = $request->input('page', 1);
+
+            $skip = ($page) * $perPage; // Menghitung jumlah data yang akan dilewati
+
+            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
+            $data = Signa::orderBy('id', 'desc')
+                ->skip($skip)
+                ->take($perPage)
+                ->get();
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Signas retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');

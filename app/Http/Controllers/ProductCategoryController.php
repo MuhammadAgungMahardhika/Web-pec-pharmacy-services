@@ -10,11 +10,20 @@ use Illuminate\Validation\ValidationException;
 class ProductCategoryController extends Controller
 {
     // Menampilkan semua data product category
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = ProductCategory::all();
-            return GlobalResponse::jsonResponse($data, 200, 'success', 'Product categories retrieved successfully');
+            $perPage = $request->input('per_page', ProductCategory::count());
+            $page = $request->input('page', 1);
+
+            $skip = ($page - 1) * $perPage; // Menghitung jumlah data yang akan dilewati
+
+            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
+            $data = ProductCategory::orderBy('created_at', 'desc')
+                ->skip($skip)
+                ->take($perPage)
+                ->get();
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'ProductCategory retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
