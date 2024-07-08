@@ -13,7 +13,7 @@ class DetailOrderController extends Controller
     public function index()
     {
         try {
-            $data = DetailOrder::all();
+            $data = DetailOrder::with(['products', 'signas'])->get();
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Detail orders retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
@@ -34,8 +34,8 @@ class DetailOrderController extends Controller
                 'id_product' => 'required|integer',
                 'id_signa' => 'required|integer',
                 'id_order' => 'required|integer',
-                'quantity' => 'required|integer',
-                'price' => 'required|integer',
+                'quantity' => 'required',
+                'price' => 'required',
                 'dosis' => 'nullable|integer',
                 'note' => 'nullable|string|max:255',
                 'note2' => 'nullable|string|max:255',
@@ -56,7 +56,7 @@ class DetailOrderController extends Controller
     {
         try {
             // Cari detail order berdasarkan ID order
-            $detailOrder = DetailOrder::with('products')->where('id_order', $orderId)->get();
+            $detailOrder = DetailOrder::with(['products', 'signas'])->where('id_order', $orderId)->get();
 
             // Pastikan jika tidak ditemukan detail order untuk ID order tersebut
             if ($detailOrder) {

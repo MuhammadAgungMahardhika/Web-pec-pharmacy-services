@@ -9,25 +9,40 @@ use Illuminate\Validation\ValidationException;
 
 class SignaController extends Controller
 {
-    // Menampilkan semua signa
+
     public function index(Request $request)
     {
         try {
+            // Mendapatkan parameter search, per_page, dan page dari request
+            $search = $request->input('search', ''); // Kata kunci pencarian
             $perPage = $request->input('per_page', Signa::count());
             $page = $request->input('page', 1);
 
-            $skip = ($page) * $perPage; // Menghitung jumlah data yang akan dilewati
+            // Menghitung jumlah data yang akan dilewati
+            $skip = ($page - 1) * $perPage;
 
-            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
-            $data = Signa::orderBy('id', 'desc')
+            // Membuat query awal untuk mengambil data signa
+            $query = Signa::query();
+
+            // Jika ada parameter search, tambahkan kondisi pencarian
+            if (!empty($search)) {
+                $query->where('name', 'like', "%{$search}%");
+            }
+
+            // Mengambil data signa dengan pagination dan sorting
+            $data = $query->orderBy('id', 'desc')
                 ->skip($skip)
                 ->take($perPage)
                 ->get();
+
+            // Mengembalikan respons JSON dengan data signa
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Signas retrieved successfully');
         } catch (\Exception $e) {
+            // Menangani kesalahan dan mengembalikan respons JSON dengan status error
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
+
 
 
     public function create()

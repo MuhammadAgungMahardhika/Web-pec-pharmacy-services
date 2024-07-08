@@ -12,6 +12,11 @@ class DetailOrder extends Model
 
     public function products()
     {
-        $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, "id_product");
+    }
+
+    public function signas()
+    {
+        return $this->belongsTo(Signa::class, "id_signa");
     }
 }

@@ -25,22 +25,34 @@ class ProductController extends Controller
         // 'generic' => 'nullable|string|max:255',
         // 'id_category' => 'nullable|integer|exists:categories,id',
     ];
-
     public function index(Request $request)
     {
         try {
+            $search = $request->input('search', '');
             $perPage = $request->input('per_page', Product::count());
             $page = $request->input('page', 1);
 
-            $skip = ($page) * $perPage; // Menghitung jumlah data yang akan dilewati
+            // Menghitung jumlah data yang akan dilewati
+            $skip = ($page - 1) * $perPage;
 
-            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
-            $data = Product::orderBy('id', 'desc')
+            // Membuat query awal untuk mengambil data produk
+            $query = Product::query();
+
+            // Jika ada parameter search, tambahkan kondisi pencarian
+            if (!empty($search)) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            }
+
+            $data = $query->orderBy('id', 'desc')
                 ->skip($skip)
                 ->take($perPage)
                 ->get();
+
+
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Products retrieved successfully');
         } catch (\Exception $e) {
+            // Menangani kesalahan dan mengembalikan respons JSON dengan status error
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
