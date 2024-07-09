@@ -15,15 +15,15 @@ class ProductController extends Controller
     [
         'code' => 'required|string|max:20',
         'name' => 'required|string|max:255',
-        // 'price' => 'required|integer|min:0',
-        // 'stock_quantity' => 'nullable|integer|min:0',
-        // 'description' => 'nullable|string|max:500',
-        // 'expired' => 'nullable|date', // Format tanggal YYYY-MM-DD
-        // 'restriction' => 'nullable|string|max:255',
-        // 'bpjs_prb' => 'nullable|boolean',
-        // 'chronic' => 'nullable|boolean',
-        // 'generic' => 'nullable|string|max:255',
-        // 'id_category' => 'nullable|integer|exists:categories,id',
+        'price' => 'required|integer|min:0',
+        'stock_quantity' => 'nullable|integer|min:0',
+        'description' => 'nullable|string|max:500',
+        'expired' => 'nullable|date',
+        'restriction' => 'nullable|string|max:255',
+        'bpjs_prb' => 'nullable|boolean',
+        'chronic' => 'nullable|boolean',
+        'generic' => 'nullable|string|max:255',
+        'id_category' => 'nullable|integer',
     ];
     public function index(Request $request)
     {
@@ -56,15 +56,7 @@ class ProductController extends Controller
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
-    // public function index()
-    // {
-    //     try {
-    //         $products = Product::all();
-    //         return GlobalResponse::jsonResponse($products, 200, 'success', 'Products retrieved successfully');
-    //     } catch (\Exception $e) {
-    //         return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to retrieve products');
-    //     }
-    // }
+
 
     public function store(Request $request)
     {

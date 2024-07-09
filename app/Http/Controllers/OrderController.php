@@ -13,13 +13,20 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         try {
+            $search = $request->input('search', '');
             $perPage = $request->input('per_page', Order::count());
             $page = $request->input('page', 1);
 
             $skip = ($page - 1) * $perPage; // Menghitung jumlah data yang akan dilewati
+            // Membuat query awal untuk mengambil data produk
+            $query = Order::query();
 
+            // Jika ada parameter search, tambahkan kondisi pencarian
+            if (!empty($search)) {
+                $query->where('no_of_receipt', 'like', "%{$search}%");
+            }
             // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
-            $data = Order::orderBy('created_at', 'desc')
+            $data = $query->orderBy('created_at', 'desc')
                 ->skip($skip)
                 ->take($perPage)
                 ->get();

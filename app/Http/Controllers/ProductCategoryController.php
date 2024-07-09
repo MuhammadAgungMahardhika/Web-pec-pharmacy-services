@@ -13,13 +13,20 @@ class ProductCategoryController extends Controller
     public function index(Request $request)
     {
         try {
+            $search = $request->input('search', '');
             $perPage = $request->input('per_page', ProductCategory::count());
             $page = $request->input('page', 1);
 
             $skip = ($page - 1) * $perPage; // Menghitung jumlah data yang akan dilewati
+            // Membuat query awal untuk mengambil data produk
+            $query = ProductCategory::query();
 
+            // Jika ada parameter search, tambahkan kondisi pencarian
+            if (!empty($search)) {
+                $query->where('name', 'like', "%{$search}%");
+            }
             // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
-            $data = ProductCategory::orderBy('created_at', 'desc')
+            $data = $query->orderBy('created_at', 'desc')
                 ->skip($skip)
                 ->take($perPage)
                 ->get();
