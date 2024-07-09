@@ -13,6 +13,7 @@ class ProductController extends Controller
 {
     private $validatedData =
     [
+        'id_category' => 'integer',
         'code' => 'required|string|max:20',
         'name' => 'required|string|max:255',
         'price' => 'required|integer|min:0',
@@ -23,7 +24,7 @@ class ProductController extends Controller
         'bpjs_prb' => 'nullable|boolean',
         'chronic' => 'nullable|boolean',
         'generic' => 'nullable|string|max:255',
-        'id_category' => 'nullable|integer',
+
     ];
     public function index(Request $request)
     {
@@ -32,13 +33,10 @@ class ProductController extends Controller
             $perPage = $request->input('per_page', Product::count());
             $page = $request->input('page', 1);
 
-            // Menghitung jumlah data yang akan dilewati
             $skip = ($page - 1) * $perPage;
 
-            // Membuat query awal untuk mengambil data produk
             $query = Product::query();
 
-            // Jika ada parameter search, tambahkan kondisi pencarian
             if (!empty($search)) {
                 $query->where('name', 'like', "%{$search}%")
                     ->orWhere('description', 'like', "%{$search}%");
@@ -52,7 +50,6 @@ class ProductController extends Controller
 
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Products retrieved successfully');
         } catch (\Exception $e) {
-            // Menangani kesalahan dan mengembalikan respons JSON dengan status error
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
@@ -64,7 +61,6 @@ class ProductController extends Controller
             $requestData =  $request->all();
             $validatedData = $request->validate($this->validatedData);
 
-            // Set default value for price if not provided
             if (!isset($validatedData['price'])) {
                 $validatedData['price'] = 0;
             }
@@ -101,7 +97,6 @@ class ProductController extends Controller
         try {
             $validatedData = $request->validate($this->validatedData);
 
-            // Set default value for price if not provided
             if (!isset($validatedData['price'])) {
                 $validatedData['price'] = 0;
             }

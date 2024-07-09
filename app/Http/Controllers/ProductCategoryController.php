@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class ProductCategoryController extends Controller
 {
-    // Menampilkan semua data product category
+
     public function index(Request $request)
     {
         try {
@@ -17,15 +17,14 @@ class ProductCategoryController extends Controller
             $perPage = $request->input('per_page', ProductCategory::count());
             $page = $request->input('page', 1);
 
-            $skip = ($page - 1) * $perPage; // Menghitung jumlah data yang akan dilewati
-            // Membuat query awal untuk mengambil data produk
+            $skip = ($page - 1) * $perPage;
             $query = ProductCategory::query();
 
-            // Jika ada parameter search, tambahkan kondisi pencarian
+
             if (!empty($search)) {
                 $query->where('name', 'like', "%{$search}%");
             }
-            // Mengambil data pesanan dengan pagination atau semua data jika tidak disertakan parameter page dan per_page
+
             $data = $query->orderBy('created_at', 'desc')
                 ->skip($skip)
                 ->take($perPage)
@@ -36,13 +35,10 @@ class ProductCategoryController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
     public function create()
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Menyimpan data product category baru
     public function store(Request $request)
     {
         try {
@@ -60,7 +56,6 @@ class ProductCategoryController extends Controller
         }
     }
 
-    // Menampilkan data product category berdasarkan ID
     public function show($id)
     {
         try {
@@ -76,13 +71,10 @@ class ProductCategoryController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
     public function edit($id)
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Memperbarui data product category berdasarkan ID
     public function update(Request $request, $id)
     {
         try {
@@ -106,7 +98,6 @@ class ProductCategoryController extends Controller
         }
     }
 
-    // Menghapus data product category berdasarkan ID
     public function destroy($id)
     {
         try {

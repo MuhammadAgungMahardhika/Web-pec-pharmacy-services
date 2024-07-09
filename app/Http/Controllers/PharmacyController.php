@@ -9,7 +9,7 @@ use Illuminate\Validation\ValidationException;
 
 class PharmacyController extends Controller
 {
-    // Menampilkan semua pharmacy
+
     public function index()
     {
         try {
@@ -20,13 +20,12 @@ class PharmacyController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
+
     public function create()
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Menyimpan pharmacy baru
+
     public function store(Request $request)
     {
         try {
@@ -44,7 +43,7 @@ class PharmacyController extends Controller
         }
     }
 
-    // Menampilkan pharmacy berdasarkan ID
+
     public function show($id)
     {
         try {
@@ -60,13 +59,12 @@ class PharmacyController extends Controller
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
+
     public function edit($id)
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Memperbarui pharmacy berdasarkan ID
+
     public function update(Request $request, $id)
     {
         try {
@@ -89,7 +87,7 @@ class PharmacyController extends Controller
         }
     }
 
-    // Menghapus pharmacy berdasarkan ID
+
     public function destroy($id)
     {
         try {
