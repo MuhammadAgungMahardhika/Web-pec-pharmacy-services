@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Schema::create('product_units', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->string('name', 255);
-        //     $table->string('created_by')->nullable();
-        //     $table->string('updated_by')->nullable();
-        //     $table->timestamps();
-        // });
+        Schema::create('product_units', function (Blueprint $table) {
+            $table->id();
+            $table->string('name', 255);
+            $table->string('created_by')->nullable();
+            $table->string('updated_by')->nullable();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        // Schema::dropIfExists('product_units');
+        Schema::dropIfExists('product_units');
     }
 };

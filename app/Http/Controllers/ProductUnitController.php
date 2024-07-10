@@ -10,23 +10,36 @@ use Illuminate\Validation\ValidationException;
 class ProductUnitController extends Controller
 {
     // Menampilkan semua data product unit
-    public function index()
+    public function index(Request $request)
     {
         try {
-            $data = ProductUnit::all();
-            return GlobalResponse::jsonResponse($data, 200, 'success', 'Product units retrieved successfully');
+            $search = $request->input('search', '');
+            $perPage = $request->input('per_page', ProductUnit::count());
+            $page = $request->input('page', 1);
+
+            $skip = ($page - 1) * $perPage;
+            $query = ProductUnit::query();
+
+
+            if (!empty($search)) {
+                $query->where('name', 'like', "%{$search}%");
+            }
+
+            $data = $query->orderBy('created_at', 'desc')
+                ->skip($skip)
+                ->take($perPage)
+                ->get();
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'Product Unit retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
         }
     }
 
-    // Tidak diperlukan untuk API, hanya digunakan untuk menampilkan form
     public function create()
     {
-        // Tidak diperlukan untuk API
     }
 
-    // Menyimpan data product unit baru
+
     public function store(Request $request)
     {
         try {

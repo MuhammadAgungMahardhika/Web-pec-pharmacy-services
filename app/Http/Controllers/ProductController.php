@@ -14,6 +14,7 @@ class ProductController extends Controller
     private $validatedData =
     [
         'id_category' => 'integer',
+        'id_unit' => 'integer',
         'code' => 'required|string|max:20',
         'name' => 'required|string|max:255',
         'price' => 'required|integer|min:0',
@@ -42,7 +43,7 @@ class ProductController extends Controller
                     ->orWhere('description', 'like', "%{$search}%");
             }
 
-            $data = $query->orderBy('id', 'desc')
+            $data = $query->with(['category', 'unit'])->orderBy('id', 'desc')
                 ->skip($skip)
                 ->take($perPage)
                 ->get();
