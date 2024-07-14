@@ -44,7 +44,7 @@ class OrderController extends Controller
     {
         try {
             $validatedData = $request->validate([
-                'id_patient' => 'required|integer', // Assuming bigint maps to integer in PHP
+                'id_patient' => 'required|integer',
                 'id_poli' => 'required|integer',
                 'id_doctor' => 'nullable|string|max:5',
                 'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt',
