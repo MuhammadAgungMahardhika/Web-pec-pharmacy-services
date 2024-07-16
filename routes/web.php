@@ -4,6 +4,7 @@ use App\Http\Controllers\DetailOrderController;
 use App\Http\Controllers\DetailPurchaseController;
 use App\Http\Controllers\DetailTransferStockController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PharmacyController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
@@ -38,4 +39,5 @@ Route::prefix('api')->group(function () {
     Route::resource('order', OrderController::class);
     Route::resource('signa', SignaController::class);
     Route::resource('pharmacy', PharmacyController::class);
+    Route::resource('patient', PatientController::class);
 });

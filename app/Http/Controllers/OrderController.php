@@ -9,6 +9,19 @@ use Illuminate\Validation\ValidationException;
 
 class OrderController extends Controller
 {
+    protected $validatedData = [
+        'id_patient' => 'required|string',
+        'id_doctor' => 'required|string',
+        'id_poli' => 'required|integer',
+        'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt',
+        'date' => 'required|date',
+        'date_of_service' => 'required|date',
+        'kind_of_medicine' => 'required|in:1,2,3',
+        'total_amount' => 'required|integer',
+        'status' => 'required|in:pending,processing,completed,cancelled',
+        'bpjs_sep' => 'nullable|string|max:19',
+        'bpjs_iteration' => 'nullable|boolean',
+    ];
     // Display all orders
     public function index(Request $request)
     {
@@ -20,7 +33,9 @@ class OrderController extends Controller
             $query = Order::query();
 
             if (!empty($search)) {
-                $query->where('no_of_receipt', 'like', "%{$search}%");
+                $query->where('no_of_receipt', 'like', "%{$search}%")
+                    ->orWhere('id_patient', 'like', "%{$search}%")
+                    ->orWhere('date', 'like', "%{$search}%");
             }
 
             $data = $query->orderBy('created_at', 'desc')
@@ -43,19 +58,7 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $validatedData = $request->validate([
-                'id_patient' => 'required|integer',
-                'id_poli' => 'required|integer',
-                'id_doctor' => 'nullable|string|max:5',
-                'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt',
-                'date' => 'required|date',
-                'date_of_service' => 'required|date',
-                'kind_of_medicine' => 'required|in:1,2,3',
-                'total_amount' => 'required|integer',
-                'status' => 'required|in:pending,processing,completed,cancelled',
-                'bpjs_sep' => 'nullable|string|max:19',
-                'bpjs_iteration' => 'required|in:0,1',
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             $order = Order::create($validatedData);
 
@@ -93,19 +96,7 @@ class OrderController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $validatedData = $request->validate([
-                'id_patient' => 'required|integer',
-                'id_poli' => 'required|integer',
-                'id_doctor' => 'nullable|string|max:5',
-                'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt,' . $id,
-                'date' => 'required|date',
-                'date_of_service' => 'required|date',
-                'kind_of_medicine' => 'required|in:1,2,3',
-                'total_amount' => 'required|integer',
-                'status' => 'required|in:pending,processing,completed,cancelled',
-                'bpjs_sep' => 'nullable|string|max:19',
-                'bpjs_iteration' => 'required|in:0,1',
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             $order = Order::find($id);
 
