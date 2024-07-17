@@ -13,7 +13,7 @@ class DetailOrderController extends Controller
     public function index()
     {
         try {
-            $data = DetailOrder::with(['products', 'signas'])->get();
+            $data = DetailOrder::with(['product', 'signa'])->get();
             return GlobalResponse::jsonResponse($data, 200, 'success', 'Detail orders retrieved successfully');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
@@ -42,7 +42,7 @@ class DetailOrderController extends Controller
             ]);
 
             $detailOrder = DetailOrder::create($validatedData);
-
+            $detailOrder->load('product', 'signa');
             return GlobalResponse::jsonResponse($detailOrder, 201, 'success', 'Detail order created successfully');
         } catch (ValidationException $e) {
             return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
@@ -56,7 +56,7 @@ class DetailOrderController extends Controller
     {
         try {
             // Cari detail order berdasarkan ID order
-            $detailOrder = DetailOrder::with(['products', 'signas'])->where('id_order', $orderId)->get();
+            $detailOrder = DetailOrder::with(['product', 'signa'])->where('id_order', $orderId)->get();
 
             // Pastikan jika tidak ditemukan detail order untuk ID order tersebut
             if ($detailOrder) {
@@ -112,6 +112,7 @@ class DetailOrderController extends Controller
 
             if ($detailOrder) {
                 $detailOrder->update($validatedData);
+                $detailOrder->load('product', 'signa');
                 return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order updated successfully');
             } else {
                 return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');

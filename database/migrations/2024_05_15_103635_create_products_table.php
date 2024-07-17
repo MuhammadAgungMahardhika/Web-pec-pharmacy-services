@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('id_unit')->unsigned()->nullable();
             $table->bigInteger('id_category')->unsigned()->nullable();
-            $table->string('code', 20);
+            $table->string('code', 20)->unique();
             $table->string('name', 255);
             $table->string('description', 255)->nullable();
             $table->integer('price')->nullable()->default(0);
