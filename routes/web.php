@@ -3,9 +3,13 @@
 use App\Http\Controllers\DetailOrderController;
 use App\Http\Controllers\DetailPurchaseController;
 use App\Http\Controllers\DetailTransferStockController;
+use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OutpatientClinic;
+use App\Http\Controllers\OutpatientClinicController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PharmacyController;
+use App\Http\Controllers\PoliController;
 use App\Http\Controllers\ProductCategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProductUnitController;
@@ -39,5 +43,8 @@ Route::prefix('api')->group(function () {
     Route::resource('order', OrderController::class);
     Route::resource('signa', SignaController::class);
     Route::resource('pharmacy', PharmacyController::class);
+    // tabel bayangan
     Route::resource('patient', PatientController::class);
+    Route::resource('outpatient-clinic', OutpatientClinicController::class);
+    Route::resource('doctor', DoctorController::class);
 });

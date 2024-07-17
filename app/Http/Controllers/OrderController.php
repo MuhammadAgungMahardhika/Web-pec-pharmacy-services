@@ -17,8 +17,6 @@ class OrderController extends Controller
         'date' => 'required|date',
         'date_of_service' => 'required|date',
         'kind_of_medicine' => 'required|in:1,2,3',
-        'total_amount' => 'required|integer',
-        'status' => 'required|in:pending,processing,completed,cancelled',
         'bpjs_sep' => 'nullable|string|max:19',
         'bpjs_iteration' => 'nullable|boolean',
     ];

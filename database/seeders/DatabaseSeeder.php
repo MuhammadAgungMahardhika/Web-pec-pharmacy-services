@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Doctor;
 use App\Models\ProductCategory;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -21,7 +22,9 @@ class DatabaseSeeder extends Seeder
             ProductUnitSeeder::class,
             SignaSeeder::class,
             ProductSeeder::class,
-            PatientSeeder::class
+            PatientSeeder::class,
+            OutpatientClinicSeeder::class,
+            DoctorSeeder::class,
         ]);
     }
 }

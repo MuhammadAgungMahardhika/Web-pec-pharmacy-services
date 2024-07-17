@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class OutpatientClinic extends Model
 {
-    use HasFactory;
-    protected $guarded = [];
 
-    public function poli()
+    use HasFactory;
+
+    public function order()
     {
-        return $this->belongsTo(Poli::class, 'id_poli');
+        return $this->hasMany(Order::class, 'id_poli');
     }
 }

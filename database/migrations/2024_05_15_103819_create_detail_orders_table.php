@@ -17,8 +17,8 @@ return new class extends Migration
             $table->bigInteger('id_signa')->unsigned()->nullable();
             $table->bigInteger('id_order')->unsigned()->nullable();
             $table->integer('quantity')->unsigned()->nullable(false);
-            $table->integer('price')->unsigned()->nullable(false);
-            $table->integer('dosis')->nullable();
+            $table->integer('price')->unsigned()->nullable();
+            $table->string('dosis')->nullable();
             $table->string('note', 255)->nullable();
             $table->string('note2', 255)->nullable();
             $table->string('created_by')->nullable();

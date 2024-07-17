@@ -9,6 +9,16 @@ use Illuminate\Validation\ValidationException;
 
 class DetailOrderController extends Controller
 {
+    protected $validatedData = [
+        'id_product' => 'required|integer',
+        'id_signa' => 'required|integer',
+        'id_order' => 'required|integer',
+        'quantity' => 'required',
+        // 'price' => 'required',
+        'dosis' => 'nullable|string',
+        'note' => 'nullable|string|max:255',
+        'note2' => 'nullable|string|max:255',
+    ];
     // Menampilkan semua detail order
     public function index()
     {
@@ -30,16 +40,7 @@ class DetailOrderController extends Controller
     public function store(Request $request)
     {
         try {
-            $validatedData = $request->validate([
-                'id_product' => 'required|integer',
-                'id_signa' => 'required|integer',
-                'id_order' => 'required|integer',
-                'quantity' => 'required',
-                'price' => 'required',
-                'dosis' => 'nullable|integer',
-                'note' => 'nullable|string|max:255',
-                'note2' => 'nullable|string|max:255',
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             $detailOrder = DetailOrder::create($validatedData);
             $detailOrder->load('product', 'signa');
@@ -97,16 +98,7 @@ class DetailOrderController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $validatedData = $request->validate([
-                'id_product' => 'required|integer',
-                'id_signa' => 'required|integer',
-                'id_order' => 'required|integer',
-                'quantity' => 'required|integer',
-                'price' => 'required|integer',
-                'dosis' => 'nullable|integer',
-                'note' => 'nullable|string|max:255',
-                'note2' => 'nullable|string|max:255',
-            ]);
+            $validatedData = $request->validate($this->validatedData);
 
             $detailOrder = DetailOrder::find($id);
 
