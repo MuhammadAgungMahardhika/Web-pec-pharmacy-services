@@ -1,0 +1,42 @@
+version: "3.7"
+services:
+    app:
+        build:
+            context: ./
+            dockerfile: Dockerfile
+            args:
+                user: agung
+                uid: 1000
+        image: pharmacy-services:1.0
+        container_name: pharmacy-services
+        restart: unless-stopped
+        working_dir: /var/www/
+        volumes:
+            - ./:/var/www
+        environment:
+            DB_HOST: mysql_container
+            DB_PORT: 3306
+            DB_DATABASE: pharmacy_services
+            DB_USERNAME: root
+            DB_PASSWORD: rootpassword
+        networks:
+            - pharmacy-services-network
+            - db-network # network terhubung ke mysql
+
+    nginx:
+        image: nginx:alpine
+        container_name: web-server-pharmacy-services
+        restart: unless-stopped
+        ports:
+            - "8082:80"
+        volumes:
+            - ./:/var/www
+            - ./docker-compose/nginx:/etc/nginx/conf.d/
+        networks:
+            - pharmacy-services-network
+
+networks:
+    pharmacy-services-network:
+        driver: bridge
+    db-network:
+        external: true

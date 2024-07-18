@@ -9,9 +9,4 @@ class Order extends Model
 {
     use HasFactory;
     protected $guarded = [];
-
-    public function poli()
-    {
-        return $this->belongsTo(Poli::class, 'id_poli');
-    }
 }
