@@ -19,14 +19,15 @@ class DetailOrderController extends Controller
         'note' => 'nullable|string|max:255',
         'note2' => 'nullable|string|max:255',
     ];
+
     // Menampilkan semua detail order
     public function index()
     {
         try {
             $data = DetailOrder::with(['product', 'signa'])->get();
-            return GlobalResponse::jsonResponse($data, 200, 'success', 'Detail orders retrieved successfully');
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'Berhasil mendapatkan detail order');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -44,15 +45,15 @@ class DetailOrderController extends Controller
 
             $detailOrder = DetailOrder::create($validatedData);
             $detailOrder->load('product', 'signa');
-            return GlobalResponse::jsonResponse($detailOrder, 201, 'success', 'Detail order created successfully');
+            return GlobalResponse::jsonResponse($detailOrder, 201, 'success', 'Detail order berhasil dibuat');
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validasi gagal');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
-    // Menampilkan detail order beradarkan order id
+    // Menampilkan detail order berdasarkan ID order
     public function showByOrderId($orderId)
     {
         try {
@@ -60,15 +61,13 @@ class DetailOrderController extends Controller
             $detailOrder = DetailOrder::with(['product', 'signa'])->where('id_order', $orderId)->get();
 
             // Pastikan jika tidak ditemukan detail order untuk ID order tersebut
-            if ($detailOrder) {
-                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order retrieved successfully');
+            if ($detailOrder->isNotEmpty()) {
+                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order berhasil ditemukan');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order tidak ditemukan');
             }
-        } catch (\Throwable $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -79,12 +78,12 @@ class DetailOrderController extends Controller
             $detailOrder = DetailOrder::find($id);
 
             if ($detailOrder) {
-                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order retrieved successfully');
+                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order berhasil ditemukan');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -105,14 +104,14 @@ class DetailOrderController extends Controller
             if ($detailOrder) {
                 $detailOrder->update($validatedData);
                 $detailOrder->load('product', 'signa');
-                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order updated successfully');
+                return GlobalResponse::jsonResponse($detailOrder, 200, 'success', 'Detail order berhasil diperbarui');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order tidak ditemukan');
             }
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validasi gagal');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -124,12 +123,12 @@ class DetailOrderController extends Controller
 
             if ($detailOrder) {
                 $detailOrder->delete();
-                return GlobalResponse::jsonResponse(null, 200, 'success', 'Detail order deleted successfully');
+                return GlobalResponse::jsonResponse(null, 200, 'success', 'Detail order berhasil dihapus');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Detail order tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 }

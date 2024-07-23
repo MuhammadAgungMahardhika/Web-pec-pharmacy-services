@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('id_patient')->nullable(false);
             $table->string('id_doctor')->nullable();
             $table->bigInteger('id_poli')->unsigned()->nullable(false);
-            $table->string('no_of_receipt', 5)->unique()->nullable(false);
+            $table->string('no_of_order', 5)->unique()->nullable(false);
             $table->date('date')->nullable(false);
             $table->date('date_of_service')->nullable(false);
             $table->enum('kind_of_medicine', ["Obat PRB", "Obat Kronis Blm Stabil", "Obat Kemoterapi"])->nullable(false);

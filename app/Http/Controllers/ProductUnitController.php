@@ -20,7 +20,6 @@ class ProductUnitController extends Controller
             $skip = ($page - 1) * $perPage;
             $query = ProductUnit::query();
 
-
             if (!empty($search)) {
                 $query->where('name', 'like', "%{$search}%");
             }
@@ -29,16 +28,16 @@ class ProductUnitController extends Controller
                 ->skip($skip)
                 ->take($perPage)
                 ->get();
-            return GlobalResponse::jsonResponse($data, 200, 'success', 'Product Unit retrieved successfully');
+
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'Berhasil mendapatkan data unit produk');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
     public function create()
     {
     }
-
 
     public function store(Request $request)
     {
@@ -49,11 +48,11 @@ class ProductUnitController extends Controller
 
             $productUnit = ProductUnit::create($validatedData);
 
-            return GlobalResponse::jsonResponse($productUnit, 201, 'success', 'Product unit created successfully');
+            return GlobalResponse::jsonResponse($productUnit, 201, 'success', 'Berhasil menambahkan unit produk');
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validasi gagal');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -64,12 +63,12 @@ class ProductUnitController extends Controller
             $productUnit = ProductUnit::find($id);
 
             if ($productUnit) {
-                return GlobalResponse::jsonResponse($productUnit, 200, 'success', 'Product unit retrieved successfully');
+                return GlobalResponse::jsonResponse($productUnit, 200, 'success', 'Berhasil mendapatkan unit produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product unit not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Unit produk tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -91,14 +90,14 @@ class ProductUnitController extends Controller
 
             if ($productUnit) {
                 $productUnit->update($validatedData);
-                return GlobalResponse::jsonResponse($productUnit, 200, 'success', 'Product unit updated successfully');
+                return GlobalResponse::jsonResponse($productUnit, 200, 'success', 'Berhasil memperbarui unit produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product unit not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Unit produk tidak ditemukan');
             }
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validasi gagal');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 
@@ -110,12 +109,12 @@ class ProductUnitController extends Controller
 
             if ($productUnit) {
                 $productUnit->delete();
-                return GlobalResponse::jsonResponse(null, 200, 'success', 'Product unit deleted successfully');
+                return GlobalResponse::jsonResponse(null, 200, 'success', 'Berhasil menghapus unit produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product unit not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Unit produk tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Terjadi kesalahan yang tidak terduga');
         }
     }
 }

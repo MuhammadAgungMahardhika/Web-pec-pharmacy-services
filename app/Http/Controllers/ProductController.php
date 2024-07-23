@@ -13,8 +13,8 @@ class ProductController extends Controller
 {
     private $validatedData =
     [
-        'id_category' => 'integer',
-        'id_unit' => 'integer',
+        'id_category' => 'nullable|integer',
+        'id_unit' => 'nullable|integer',
         'code' => 'required|string|max:20',
         'name' => 'required|string|max:255',
         'price' => 'required|integer|min:0',
@@ -49,9 +49,9 @@ class ProductController extends Controller
                 ->get();
 
 
-            return GlobalResponse::jsonResponse($data, 200, 'success', 'Products retrieved successfully');
+            return GlobalResponse::jsonResponse($data, 200, 'success', 'Berhasil mendapatkan produk');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
     }
 
@@ -66,13 +66,11 @@ class ProductController extends Controller
                 $validatedData['price'] = 0;
             }
 
-            $product = Product::create($requestData);
+            $product = Product::create($validatedData);
 
-            return GlobalResponse::jsonResponse($product, 201, 'success', 'Product created successfully');
+            return GlobalResponse::jsonResponse($product, 201, 'success', 'Berhasil membuat produk');
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', $e->getMessage());
-        } catch (QueryException $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Input tidak valid');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
@@ -84,12 +82,12 @@ class ProductController extends Controller
             $product = Product::find($id);
 
             if ($product) {
-                return GlobalResponse::jsonResponse($product, 200, 'success', 'Product retrieved successfully');
+                return GlobalResponse::jsonResponse($product, 200, 'success', 'Berhasil mendapatkan produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Gagal menampilkan produk, Produk tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to retrieve product');
+            return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
     }
 
@@ -106,16 +104,14 @@ class ProductController extends Controller
 
             if ($product) {
                 $product->update($validatedData);
-                return GlobalResponse::jsonResponse($product, 200, 'success', 'Product updated successfully');
+                return GlobalResponse::jsonResponse($product, 200, 'success', 'Berhasil mengubah produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Produk tidak ditemukan');
             }
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Validation failed');
-        } catch (QueryException $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to update product');
+            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Input tidak valid');
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'An unexpected error occurred');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Gagal mengubah produk');
         }
     }
 
@@ -126,12 +122,12 @@ class ProductController extends Controller
 
             if ($product) {
                 $product->delete();
-                return GlobalResponse::jsonResponse(null, 200, 'success', 'Product deleted successfully');
+                return GlobalResponse::jsonResponse(null, 200, 'success', 'Berhasil menghapus produk');
             } else {
-                return GlobalResponse::jsonResponse(null, 404, 'error', 'Product not found');
+                return GlobalResponse::jsonResponse(null, 404, 'error', 'Gagal menghapus produk, Produk tidak ditemukan');
             }
         } catch (\Exception $e) {
-            return GlobalResponse::jsonResponse(null, 500, 'error', 'Failed to delete product');
+            return GlobalResponse::jsonResponse(null, 500, 'error', 'Gagal menghapus produk');
         }
     }
 }

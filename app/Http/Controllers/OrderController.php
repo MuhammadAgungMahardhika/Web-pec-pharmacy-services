@@ -13,7 +13,7 @@ class OrderController extends Controller
         'id_patient' => 'required|string',
         'id_doctor' => 'required|string',
         'id_poli' => 'required|integer',
-        'no_of_receipt' => 'required|string|max:5|unique:orders,no_of_receipt',
+        'no_of_order' => 'required|string|max:5|unique:orders,no_of_order',
         'date' => 'required|date',
         'date_of_service' => 'required|date',
         'kind_of_medicine' => 'required|in:1,2,3',
@@ -31,7 +31,7 @@ class OrderController extends Controller
             $query = Order::query();
 
             if (!empty($search)) {
-                $query->where('no_of_receipt', 'like', "%{$search}%")
+                $query->where('no_of_order', 'like', "%{$search}%")
                     ->orWhere('id_patient', 'like', "%{$search}%")
                     ->orWhere('date', 'like', "%{$search}%");
             }
