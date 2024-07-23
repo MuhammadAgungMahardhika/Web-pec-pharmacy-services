@@ -59,7 +59,6 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         try {
-            $requestData =  $request->all();
             $validatedData = $request->validate($this->validatedData);
 
             if (!isset($validatedData['price'])) {
@@ -70,7 +69,7 @@ class ProductController extends Controller
 
             return GlobalResponse::jsonResponse($product, 201, 'success', 'Berhasil membuat produk');
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Input tidak valid');
+            return GlobalResponse::jsonResponse(null, 422, 'error', 'Input tidak valid');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', $e->getMessage());
         }
@@ -109,7 +108,7 @@ class ProductController extends Controller
                 return GlobalResponse::jsonResponse(null, 404, 'error', 'Produk tidak ditemukan');
             }
         } catch (ValidationException $e) {
-            return GlobalResponse::jsonResponse($e->errors(), 422, 'error', 'Input tidak valid');
+            return GlobalResponse::jsonResponse(null, 422, 'error', 'Input tidak valid');
         } catch (\Exception $e) {
             return GlobalResponse::jsonResponse(null, 500, 'error', 'Gagal mengubah produk');
         }
